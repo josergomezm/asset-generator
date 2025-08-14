@@ -1,0 +1,20 @@
+{
+  "id": "3d57e5af-9ec1-44cd-a323-8a55c78173fa",
+  "name": "Test Project",
+  "description": "A test project for validation",
+  "context": "This is a test project context",
+  "artStyle": {
+    "description": "Modern minimalist style",
+    "referenceImages": [
+      "image1.jpg",
+      "image2.jpg"
+    ],
+    "styleKeywords": [
+      "modern",
+      "minimalist",
+      "clean"
+    ]
+  },
+  "createdAt": "2025-08-14T02:07:52.640Z",
+  "updatedAt": "2025-08-14T02:07:52.640Z"
+}

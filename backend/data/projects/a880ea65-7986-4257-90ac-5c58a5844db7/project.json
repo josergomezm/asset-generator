@@ -1,0 +1,13 @@
+{
+  "id": "a880ea65-7986-4257-90ac-5c58a5844db7",
+  "name": "Minimal Project",
+  "description": "Minimal description",
+  "context": "Minimal context",
+  "artStyle": {
+    "description": "Minimal art style",
+    "referenceImages": [],
+    "styleKeywords": []
+  },
+  "createdAt": "2025-08-14T03:00:18.786Z",
+  "updatedAt": "2025-08-14T03:00:18.786Z"
+}

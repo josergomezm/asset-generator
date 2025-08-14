@@ -1,0 +1,13 @@
+[
+  {
+    "id": "42ede290-3876-4d7f-a94c-359346a1dd76",
+    "projectId": "f84c8a90-5a0b-4743-9c7b-f1b5a157a2c5",
+    "type": "image",
+    "name": "Test Asset",
+    "generationPrompt": "Test prompt",
+    "generationParameters": {},
+    "status": "pending",
+    "createdAt": "2025-08-14T01:41:31.396Z",
+    "metadata": {}
+  }
+]

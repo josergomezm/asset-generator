@@ -1,0 +1,17 @@
+{
+  "id": "da5eeba1-55ab-42e7-b8f4-fd5891d29225",
+  "name": "Test Project",
+  "description": "A test project for API testing",
+  "context": "Testing context for the project",
+  "artStyle": {
+    "description": "Modern minimalist style with clean lines",
+    "referenceImages": [],
+    "styleKeywords": [
+      "modern",
+      "minimalist",
+      "clean"
+    ]
+  },
+  "createdAt": "2025-08-14T02:11:03.903Z",
+  "updatedAt": "2025-08-14T02:11:03.903Z"
+}
