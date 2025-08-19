@@ -1,0 +1,17 @@
+{
+  "id": "18c11b16-2bfb-4784-a06d-e01fd17349d5",
+  "projectId": "fb939751-477e-4d04-a5ce-2e43d63cacee",
+  "type": "prompt",
+  "name": "Test Prompt Asset",
+  "description": "A test prompt asset",
+  "generationPrompt": "A magical forest with glowing trees",
+  "generationParameters": {
+    "creativity": "balanced",
+    "length": "medium",
+    "focus": "visual",
+    "variations": 1
+  },
+  "status": "pending",
+  "createdAt": "2025-08-16T00:32:01.989Z",
+  "metadata": {}
+}

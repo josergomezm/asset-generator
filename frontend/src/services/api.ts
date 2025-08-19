@@ -1,6 +1,7 @@
 import type { 
   Project, 
-  Asset
+  Asset,
+  GenerationJob
 } from '@asset-tool/types'
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api'
@@ -9,7 +10,8 @@ class ApiError extends Error {
   constructor(
     message: string,
     public status: number,
-    public code?: string
+    public code?: string,
+    public details?: any
   ) {
     super(message)
     this.name = 'ApiError'
@@ -17,30 +19,68 @@ class ApiError extends Error {
 }
 
 class ApiClient {
+  private retryDelays = [1000, 2000, 4000] // Exponential backoff
+  
   private async request<T>(
     endpoint: string,
-    options: RequestInit = {}
+    options: RequestInit = {},
+    retryCount = 0
   ): Promise<T> {
     const url = `${API_BASE_URL}${endpoint}`
     
-    const response = await fetch(url, {
-      headers: {
-        'Content-Type': 'application/json',
-        ...options.headers,
-      },
-      ...options,
-    })
+    try {
+      const response = await fetch(url, {
+        headers: {
+          'Content-Type': 'application/json',
+          ...options.headers,
+        },
+        ...options,
+      })
 
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}))
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}))
+        
+        // Retry on server errors (5xx) but not client errors (4xx)
+        if (response.status >= 500 && retryCount < this.retryDelays.length) {
+          await this.delay(this.retryDelays[retryCount])
+          return this.request<T>(endpoint, options, retryCount + 1)
+        }
+        
+        throw new ApiError(
+          errorData.error?.message || 'An error occurred',
+          response.status,
+          errorData.error?.code,
+          errorData.error?.details
+        )
+      }
+
+      // Handle empty responses (like 204 No Content)
+      if (response.status === 204) {
+        return undefined as T
+      }
+
+      return response.json()
+    } catch (error) {
+      // Retry on network errors
+      if (error instanceof TypeError && error.message.includes('fetch') && retryCount < this.retryDelays.length) {
+        await this.delay(this.retryDelays[retryCount])
+        return this.request<T>(endpoint, options, retryCount + 1)
+      }
+      
+      if (error instanceof ApiError) {
+        throw error
+      }
+      
       throw new ApiError(
-        errorData.error?.message || 'An error occurred',
-        response.status,
-        errorData.error?.code
+        'Network error occurred',
+        0,
+        'NETWORK_ERROR'
       )
     }
+  }
 
-    return response.json()
+  private delay(ms: number): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms))
   }
 
   // Project API methods
@@ -120,6 +160,68 @@ class ApiClient {
     }
     
     return response.blob()
+  }
+
+  // Generation API methods
+  async generateImage(data: {
+    projectId: string
+    name: string
+    description?: string
+    generationPrompt: string
+    generationParameters?: Record<string, any>
+    styleOverride?: {
+      description?: string
+      keywords?: string[]
+    }
+  }): Promise<{ asset: Asset; job: GenerationJob; message: string }> {
+    return this.request<{ asset: Asset; job: GenerationJob; message: string }>('/generate/image', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    })
+  }
+
+  async generateVideo(data: {
+    projectId: string
+    name: string
+    description?: string
+    generationPrompt: string
+    generationParameters?: Record<string, any>
+    styleOverride?: {
+      description?: string
+      keywords?: string[]
+    }
+  }): Promise<{ asset: Asset; job: GenerationJob; message: string }> {
+    return this.request<{ asset: Asset; job: GenerationJob; message: string }>('/generate/video', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    })
+  }
+
+  async generatePrompt(data: {
+    projectId: string
+    name: string
+    description?: string
+    generationPrompt: string
+    generationParameters?: Record<string, any>
+    styleOverride?: {
+      description?: string
+      keywords?: string[]
+    }
+  }): Promise<{ asset: Asset; job: GenerationJob; message: string }> {
+    return this.request<{ asset: Asset; job: GenerationJob; message: string }>('/generate/prompt', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    })
+  }
+
+  async getGenerationStatus(jobId: string): Promise<{ job: GenerationJob; message: string }> {
+    return this.request<{ job: GenerationJob; message: string }>(`/generate/status/${jobId}`)
+  }
+
+  async cancelGeneration(jobId: string): Promise<{ message: string }> {
+    return this.request<{ message: string }>(`/generate/cancel/${jobId}`, {
+      method: 'DELETE',
+    })
   }
 }
 

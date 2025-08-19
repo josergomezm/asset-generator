@@ -1,0 +1,16 @@
+{
+  "id": "191b68e2-f179-485f-ab53-df4bd682f2ab",
+  "projectId": "8f7646b5-4add-42d5-8ef1-664fa3923052",
+  "type": "prompt",
+  "name": "Test experimental Prompt",
+  "generationPrompt": "A serene landscape",
+  "generationParameters": {
+    "creativity": "experimental",
+    "length": "short",
+    "focus": "visual",
+    "variations": 1
+  },
+  "status": "pending",
+  "createdAt": "2025-08-16T03:23:52.077Z",
+  "metadata": {}
+}

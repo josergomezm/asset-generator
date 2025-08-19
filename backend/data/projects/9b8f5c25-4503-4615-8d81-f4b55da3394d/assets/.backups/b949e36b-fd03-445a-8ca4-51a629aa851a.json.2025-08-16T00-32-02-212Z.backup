@@ -1,0 +1,16 @@
+{
+  "id": "b949e36b-fd03-445a-8ca4-51a629aa851a",
+  "projectId": "9b8f5c25-4503-4615-8d81-f4b55da3394d",
+  "type": "prompt",
+  "name": "Test Prompt with Style Override",
+  "generationPrompt": "A cyberpunk cityscape",
+  "generationParameters": {
+    "creativity": "creative",
+    "length": "long",
+    "focus": "mood",
+    "variations": 3
+  },
+  "status": "pending",
+  "createdAt": "2025-08-16T00:32:02.155Z",
+  "metadata": {}
+}

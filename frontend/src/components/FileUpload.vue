@@ -2,7 +2,7 @@
   <div class="w-full">
     <div
       ref="dropZone"
-      class="relative border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
+      class="relative border-2 border-dashed border-gray-300 rounded-lg p-4 sm:p-6 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 cursor-pointer touch-manipulation"
       :class="{
         'border-blue-400 bg-blue-50': isDragOver,
         'border-red-400 bg-red-50': hasError
@@ -12,19 +12,22 @@
       @dragenter="handleDragEnter"
       @dragleave="handleDragLeave"
       @click="triggerFileInput"
+      @touchstart="handleTouchStart"
+      @touchend="handleTouchEnd"
     >
       <input
         ref="fileInput"
         type="file"
         :multiple="multiple"
         :accept="accept"
+        :capture="accept.includes('image') ? 'environment' : undefined"
         class="hidden"
         @change="handleFileSelect"
       />
 
       <div v-if="!uploading">
         <svg
-          class="mx-auto h-12 w-12 text-gray-400"
+          class="mx-auto h-10 w-10 sm:h-12 sm:w-12 text-gray-400"
           stroke="currentColor"
           fill="none"
           viewBox="0 0 48 48"
@@ -37,16 +40,29 @@
             stroke-linejoin="round"
           />
         </svg>
-        <div class="mt-4">
+        <div class="mt-3 sm:mt-4">
           <p class="text-sm text-gray-600">
             <span class="font-medium text-blue-600 hover:text-blue-500 cursor-pointer">
-              Click to upload
+              {{ isMobile ? 'Tap to upload' : 'Click to upload' }}
             </span>
-            or drag and drop
+            <span class="hidden sm:inline"> or drag and drop</span>
           </p>
           <p class="text-xs text-gray-500 mt-1">
             {{ acceptText }}
           </p>
+          <!-- Mobile-specific camera button -->
+          <div v-if="isMobile && accept.includes('image')" class="mt-3">
+            <button
+              @click.stop="openCamera"
+              class="inline-flex items-center px-3 py-2 border border-transparent text-xs font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 touch-manipulation"
+            >
+              <svg class="mr-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              Take Photo
+            </button>
+          </div>
         </div>
       </div>
 
@@ -64,7 +80,7 @@
     <!-- File Preview -->
     <div v-if="previewFiles.length > 0" class="mt-4">
       <h4 class="text-sm font-medium text-gray-900 mb-2">Selected Files:</h4>
-      <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+      <div class="grid grid-cols-2 gap-3 sm:gap-4 sm:grid-cols-3 lg:grid-cols-4">
         <div
           v-for="(file, index) in previewFiles"
           :key="index"
@@ -78,14 +94,14 @@
               class="w-full h-full object-cover"
             />
             <div v-else class="w-full h-full flex items-center justify-center">
-              <svg class="h-8 w-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="h-6 w-6 sm:h-8 sm:w-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-3-3v6m5-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
             </div>
           </div>
           <button
             @click="removeFile(index)"
-            class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+            class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-7 h-7 sm:w-6 sm:h-6 flex items-center justify-center text-sm sm:text-xs hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 touch-manipulation"
           >
             ×
           </button>
@@ -97,7 +113,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onUnmounted } from 'vue'
+import { ref, computed, onUnmounted, onMounted } from 'vue'
 
 interface FileWithPreview {
   file: File
@@ -130,6 +146,8 @@ const isDragOver = ref(false)
 const uploading = ref(false)
 const errorMessage = ref('')
 const previewFiles = ref<FileWithPreview[]>([])
+const isMobile = ref(false)
+const touchStartTime = ref(0)
 
 const hasError = computed(() => !!errorMessage.value)
 const acceptText = computed(() => {
@@ -141,6 +159,42 @@ const acceptText = computed(() => {
 
 function triggerFileInput() {
   fileInput.value?.click()
+}
+
+function handleTouchStart() {
+  touchStartTime.value = Date.now()
+}
+
+function handleTouchEnd() {
+  // Only trigger if it was a quick tap (not a long press)
+  if (Date.now() - touchStartTime.value < 500) {
+    triggerFileInput()
+  }
+}
+
+function openCamera() {
+  // Create a new input specifically for camera capture
+  const cameraInput = document.createElement('input')
+  cameraInput.type = 'file'
+  cameraInput.accept = 'image/*'
+  cameraInput.capture = 'environment'
+  cameraInput.style.display = 'none'
+  
+  cameraInput.onchange = (e) => {
+    const target = e.target as HTMLInputElement
+    const files = Array.from(target.files || [])
+    processFiles(files)
+    document.body.removeChild(cameraInput)
+  }
+  
+  document.body.appendChild(cameraInput)
+  cameraInput.click()
+}
+
+function detectMobile() {
+  isMobile.value = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+    ('ontouchstart' in window) ||
+    (navigator.maxTouchPoints > 0)
 }
 
 function handleDragOver(e: DragEvent) {
@@ -260,6 +314,11 @@ function clearFiles() {
   errorMessage.value = ''
   emit('filesSelected', [])
 }
+
+// Detect mobile on mount
+onMounted(() => {
+  detectMobile()
+})
 
 // Cleanup on unmount
 onUnmounted(() => {

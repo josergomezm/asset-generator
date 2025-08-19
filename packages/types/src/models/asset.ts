@@ -10,6 +10,10 @@ export const AssetSchema = z.object({
   filePath: z.string().optional(),
   generationPrompt: z.string(),
   generationParameters: z.record(z.any()),
+  styleOverride: z.object({
+    description: z.string().optional(),
+    keywords: z.array(z.string()).optional()
+  }).optional(),
   status: z.enum(['pending', 'generating', 'completed', 'failed']),
   createdAt: z.string().datetime(), // ISO string for JSON compatibility
   metadata: z.object({

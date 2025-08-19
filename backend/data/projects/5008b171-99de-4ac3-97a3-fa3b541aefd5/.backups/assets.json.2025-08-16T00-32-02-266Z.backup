@@ -1,0 +1,34 @@
+[
+  {
+    "id": "1b977531-4158-4edc-88e5-55b9d7fe6454",
+    "projectId": "5008b171-99de-4ac3-97a3-fa3b541aefd5",
+    "type": "prompt",
+    "name": "Test conservative Prompt",
+    "generationPrompt": "A serene landscape",
+    "generationParameters": {
+      "creativity": "conservative",
+      "length": "short",
+      "focus": "visual",
+      "variations": 1
+    },
+    "status": "pending",
+    "createdAt": "2025-08-16T00:32:02.200Z",
+    "metadata": {}
+  },
+  {
+    "id": "913df5e6-4772-4bd1-8325-ad27f6b015d0",
+    "projectId": "5008b171-99de-4ac3-97a3-fa3b541aefd5",
+    "type": "prompt",
+    "name": "Test balanced Prompt",
+    "generationPrompt": "A serene landscape",
+    "generationParameters": {
+      "creativity": "balanced",
+      "length": "short",
+      "focus": "visual",
+      "variations": 1
+    },
+    "status": "pending",
+    "createdAt": "2025-08-16T00:32:02.227Z",
+    "metadata": {}
+  }
+]

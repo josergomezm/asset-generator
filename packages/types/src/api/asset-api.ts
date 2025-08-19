@@ -52,6 +52,23 @@ export const GenerateVideoRequestSchema = z.object({
   }).optional()
 });
 
+export const GeneratePromptRequestSchema = z.object({
+  projectId: z.string(),
+  name: z.string().min(1).max(100),
+  description: z.string().max(500).optional(),
+  prompt: z.string().min(1),
+  styleOverride: z.object({
+    description: z.string().optional(),
+    keywords: z.array(z.string()).optional()
+  }).optional(),
+  parameters: z.object({
+    creativity: z.enum(['conservative', 'balanced', 'creative', 'experimental']).optional(),
+    length: z.enum(['short', 'medium', 'long']).optional(),
+    focus: z.enum(['visual', 'mood', 'technical', 'narrative']).optional(),
+    variations: z.number().min(1).max(5).optional()
+  }).optional()
+});
+
 // Type exports
 export type CreateAssetRequest = z.infer<typeof CreateAssetRequestSchema>;
 export type UpdateAssetRequest = z.infer<typeof UpdateAssetRequestSchema>;
@@ -59,3 +76,4 @@ export type AssetResponse = z.infer<typeof AssetResponseSchema>;
 export type AssetListResponse = z.infer<typeof AssetListResponseSchema>;
 export type GenerateImageRequest = z.infer<typeof GenerateImageRequestSchema>;
 export type GenerateVideoRequest = z.infer<typeof GenerateVideoRequestSchema>;
+export type GeneratePromptRequest = z.infer<typeof GeneratePromptRequestSchema>;

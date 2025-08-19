@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div class="mb-6">
+    <div class="mb-4 sm:mb-6">
       <router-link 
         to="/" 
-        class="inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-700"
+        class="inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 touch-manipulation"
       >
         <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
@@ -36,9 +36,9 @@
     <!-- Project Content -->
     <div v-else-if="project">
       <!-- Project Header -->
-      <div class="sm:flex sm:items-center mb-8">
-        <div class="sm:flex-auto">
-          <h1 class="text-2xl font-semibold leading-6 text-gray-900">{{ project.name }}</h1>
+      <div class="mb-6 sm:mb-8">
+        <div class="flex-auto">
+          <h1 class="text-xl sm:text-2xl font-semibold leading-6 text-gray-900">{{ project.name }}</h1>
           <p v-if="project.description" class="mt-2 text-sm text-gray-700">
             {{ project.description }}
           </p>
@@ -49,19 +49,16 @@
       </div>
 
       <!-- Art Style Configuration -->
-      <div class="mb-8">
+      <div class="mb-6 sm:mb-8">
         <StyleDefinition 
           :project="project" 
           @updated="handleProjectUpdated"
         />
       </div>
 
-      <!-- Asset Gallery will be implemented in later tasks -->
-      <div class="mt-8">
-        <div class="bg-white shadow rounded-lg p-6">
-          <h3 class="text-lg font-medium text-gray-900 mb-4">Project Assets</h3>
-          <p class="text-gray-500">Asset gallery - to be implemented in later tasks</p>
-        </div>
+      <!-- Asset Gallery -->
+      <div class="mt-6 sm:mt-8">
+        <AssetGallery :project-id="project.id" :project="project" />
       </div>
     </div>
   </div>
@@ -72,6 +69,7 @@ import { ref, onMounted } from 'vue'
 import type { Project } from '@asset-tool/types'
 import { apiClient } from '../services/api'
 import StyleDefinition from '../components/StyleDefinition.vue'
+import AssetGallery from '../components/AssetGallery.vue'
 
 interface Props {
   id: string

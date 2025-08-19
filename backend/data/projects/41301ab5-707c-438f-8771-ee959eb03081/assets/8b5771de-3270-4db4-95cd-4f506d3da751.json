@@ -1,0 +1,25 @@
+{
+  "id": "8b5771de-3270-4db4-95cd-4f506d3da751",
+  "projectId": "41301ab5-707c-438f-8771-ee959eb03081",
+  "type": "prompt",
+  "name": "Test Prompt with Style Override",
+  "generationPrompt": "A cyberpunk cityscape",
+  "generationParameters": {
+    "creativity": "creative",
+    "length": "long",
+    "focus": "mood",
+    "variations": 3
+  },
+  "styleOverride": {
+    "description": "Dark and gritty cyberpunk aesthetic",
+    "keywords": [
+      "cyberpunk",
+      "neon",
+      "dark",
+      "gritty"
+    ]
+  },
+  "status": "failed",
+  "createdAt": "2025-08-16T03:23:51.909Z",
+  "metadata": {}
+}

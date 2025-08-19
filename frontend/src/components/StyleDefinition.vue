@@ -1,8 +1,8 @@
 <template>
   <div class="bg-white shadow rounded-lg">
-    <div class="px-6 py-4 border-b border-gray-200">
-      <div class="flex items-center justify-between">
-        <div>
+    <div class="px-4 sm:px-6 py-4 border-b border-gray-200">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+        <div class="mb-3 sm:mb-0">
           <h3 class="text-lg font-medium text-gray-900">Art Style Configuration</h3>
           <p class="mt-1 text-sm text-gray-500">
             Define the visual style for consistent asset generation across your project.
@@ -11,7 +11,7 @@
         <button
           v-if="!isEditing"
           @click="startEditing"
-          class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          class="inline-flex items-center justify-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 touch-manipulation"
         >
           <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -21,7 +21,7 @@
       </div>
     </div>
 
-    <div class="p-6">
+    <div class="p-4 sm:p-6">
       <!-- View Mode -->
       <div v-if="!isEditing">
         <!-- Style Description -->
@@ -55,7 +55,7 @@
         <!-- Reference Images -->
         <div>
           <h4 class="text-sm font-medium text-gray-900 mb-2">Reference Images</h4>
-          <div v-if="project.artStyle?.referenceImages?.length" class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+          <div v-if="project.artStyle?.referenceImages?.length" class="grid grid-cols-2 gap-3 sm:gap-4 sm:grid-cols-3 lg:grid-cols-4">
             <div
               v-for="(image, index) in project.artStyle.referenceImages"
               :key="index"
@@ -76,7 +76,7 @@
       </div>
 
       <!-- Edit Mode -->
-      <form v-else @submit.prevent="handleSubmit" class="space-y-6">
+      <form v-else @submit.prevent="handleSubmit" class="space-y-4 sm:space-y-6">
         <!-- Style Description -->
         <div>
           <label for="styleDescription" class="block text-sm font-medium text-gray-700">
@@ -86,7 +86,7 @@
             id="styleDescription"
             v-model="form.description"
             rows="4"
-            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-base sm:text-sm"
             :class="{ 'border-red-300': errors.description }"
             placeholder="Describe the visual style you want for this project (e.g., 'minimalist flat design with bright colors', 'realistic 3D rendering', etc.)"
           />
@@ -102,7 +102,7 @@
             id="styleKeywords"
             v-model="keywordsInput"
             type="text"
-            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-base sm:text-sm"
             placeholder="Enter keywords separated by commas (e.g., modern, colorful, geometric)"
             @input="updateKeywords"
           />
@@ -131,18 +131,18 @@
         </div>
 
         <!-- Form Actions -->
-        <div class="flex justify-end space-x-3 pt-4 border-t border-gray-200">
+        <div class="flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 sm:space-x-3 pt-4 border-t border-gray-200">
           <button
             type="button"
             @click="cancelEditing"
-            class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            class="w-full sm:w-auto px-4 py-3 sm:py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 touch-manipulation"
           >
             Cancel
           </button>
           <button
             type="submit"
             :disabled="loading"
-            class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
+            class="w-full sm:w-auto px-4 py-3 sm:py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 touch-manipulation"
           >
             {{ loading ? 'Saving...' : 'Save Style' }}
           </button>

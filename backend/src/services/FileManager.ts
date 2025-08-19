@@ -62,17 +62,34 @@ export class FileManager {
   }
 
   /**
-   * Read JSON file with error handling
+   * Read JSON file with error handling and recovery
    */
   async readJSON<T>(filePath: string): Promise<T> {
+    const absolutePath = path.isAbsolute(filePath) ? filePath : path.join(this.dataDir, filePath);
+    
     try {
-      const absolutePath = path.isAbsolute(filePath) ? filePath : path.join(this.dataDir, filePath);
       const data = await fs.readFile(absolutePath, 'utf-8');
       return JSON.parse(data);
     } catch (error) {
       if ((error as NodeJS.ErrnoException).code === 'ENOENT') {
         throw new Error(`File not found: ${filePath}`);
       }
+      
+      // If JSON parsing fails, try to recover from backup
+      if (error instanceof SyntaxError && this.enableBackups) {
+        try {
+          const backupData = await this.tryRecoverFromBackup<T>(absolutePath);
+          if (backupData) {
+            console.warn(`Recovered corrupted file ${filePath} from backup`);
+            // Write the recovered data back
+            await this.writeJSON(filePath, backupData);
+            return backupData;
+          }
+        } catch (backupError) {
+          console.warn(`Failed to recover from backup for ${filePath}:`, backupError);
+        }
+      }
+      
       throw new Error(`Failed to read JSON file ${filePath}: ${(error as Error).message}`);
     }
   }
@@ -81,24 +98,61 @@ export class FileManager {
    * Write JSON file with atomic operations and backup
    */
   async writeJSON<T>(filePath: string, data: T): Promise<void> {
+    const absolutePath = path.isAbsolute(filePath) ? filePath : path.join(this.dataDir, filePath);
+    
     try {
-      const absolutePath = path.isAbsolute(filePath) ? filePath : path.join(this.dataDir, filePath);
+      // Ensure directory exists
+      await this.ensureDirectoryExists(path.dirname(absolutePath));
       
       // Create backup if file exists and backups are enabled
       if (this.enableBackups && await this.fileExists(absolutePath)) {
         await this.createBackup(absolutePath);
       }
       
-      // Ensure directory exists
-      await this.ensureDirectoryExists(path.dirname(absolutePath));
-      
-      // Write to temporary file first (atomic operation)
-      const tempPath = `${absolutePath}.tmp`;
       const jsonData = JSON.stringify(data, null, 2);
-      await fs.writeFile(tempPath, jsonData, 'utf-8');
       
-      // Move temp file to final location
-      await fs.rename(tempPath, absolutePath);
+      // In test environment or when backups are disabled, use direct write
+      if (!this.enableBackups || process.env.NODE_ENV === 'test') {
+        await fs.writeFile(absolutePath, jsonData, 'utf-8');
+        return;
+      }
+      
+      // For production, use atomic write with temp file
+      const tempPath = `${absolutePath}.tmp`;
+      
+      try {
+        // Write to temporary file first
+        await fs.writeFile(tempPath, jsonData, 'utf-8');
+        
+        // On Windows, handle the rename operation carefully
+        if (await this.fileExists(absolutePath)) {
+          try {
+            await fs.unlink(absolutePath);
+          } catch (unlinkError) {
+            // If we can't remove the file, try direct overwrite
+            try {
+              await fs.copyFile(tempPath, absolutePath);
+              await fs.unlink(tempPath);
+              return;
+            } catch (copyError) {
+              throw new Error(`Failed to overwrite file: ${(copyError as Error).message}`);
+            }
+          }
+        }
+        
+        // Move temp file to final location
+        await fs.rename(tempPath, absolutePath);
+      } catch (error) {
+        // Clean up temp file if it exists
+        try {
+          if (await this.fileExists(tempPath)) {
+            await fs.unlink(tempPath);
+          }
+        } catch {
+          // Ignore cleanup errors
+        }
+        throw error;
+      }
     } catch (error) {
       throw new Error(`Failed to write JSON file ${filePath}: ${(error as Error).message}`);
     }
@@ -196,6 +250,42 @@ export class FileManager {
     } catch (error) {
       console.warn(`Failed to create backup for ${filePath}:`, error);
       // Don't throw error for backup failures
+    }
+  }
+
+  /**
+   * Try to recover data from the most recent backup
+   */
+  private async tryRecoverFromBackup<T>(filePath: string): Promise<T | null> {
+    try {
+      const backupDir = path.join(path.dirname(filePath), '.backups');
+      const fileName = path.basename(filePath);
+      
+      if (!(await this.fileExists(backupDir))) {
+        return null;
+      }
+      
+      const files = await fs.readdir(backupDir);
+      const backupFiles = files
+        .filter(file => file.startsWith(`${fileName}.`) && file.endsWith('.backup'))
+        .map(file => ({
+          name: file,
+          path: path.join(backupDir, file),
+          time: file.split('.').slice(-2, -1)[0] // Extract timestamp
+        }))
+        .sort((a, b) => b.time.localeCompare(a.time)); // Sort by timestamp descending
+      
+      if (backupFiles.length === 0) {
+        return null;
+      }
+      
+      // Try to read the most recent backup
+      const mostRecentBackup = backupFiles[0];
+      const backupData = await fs.readFile(mostRecentBackup.path, 'utf-8');
+      return JSON.parse(backupData) as T;
+    } catch (error) {
+      console.warn(`Failed to recover from backup:`, error);
+      return null;
     }
   }
 

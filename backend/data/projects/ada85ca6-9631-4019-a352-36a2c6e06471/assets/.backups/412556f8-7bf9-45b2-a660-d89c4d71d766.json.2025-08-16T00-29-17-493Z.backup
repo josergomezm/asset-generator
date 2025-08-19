@@ -1,0 +1,17 @@
+{
+  "id": "412556f8-7bf9-45b2-a660-d89c4d71d766",
+  "projectId": "ada85ca6-9631-4019-a352-36a2c6e06471",
+  "type": "video",
+  "name": "Test Video Asset",
+  "description": "A test video asset",
+  "generationPrompt": "A beautiful sunset over the ocean",
+  "generationParameters": {
+    "duration": 5,
+    "fps": 30,
+    "resolution": "1080p",
+    "motion_intensity": "medium"
+  },
+  "status": "pending",
+  "createdAt": "2025-08-16T00:29:17.416Z",
+  "metadata": {}
+}

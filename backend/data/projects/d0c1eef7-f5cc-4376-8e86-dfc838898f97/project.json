@@ -1,0 +1,15 @@
+{
+  "id": "d0c1eef7-f5cc-4376-8e86-dfc838898f97",
+  "name": "Updated Test Project",
+  "description": "Updated description",
+  "context": "Testing context",
+  "artStyle": {
+    "description": "Test style",
+    "referenceImages": [],
+    "styleKeywords": [
+      "test"
+    ]
+  },
+  "createdAt": "2025-08-16T00:03:15.323Z",
+  "updatedAt": "2025-08-16T00:03:15.354Z"
+}

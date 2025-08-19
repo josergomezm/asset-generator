@@ -76,7 +76,7 @@ router.post(
  */
 router.get(
   '/:projectId/assets',
-  validate({ params: CommonParams.id }),
+  validate({ params: CommonParams.projectId }),
   assetController.getProjectAssets.bind(assetController)
 );
 
@@ -87,7 +87,7 @@ router.get(
 router.post(
   '/:projectId/assets',
   validate({ 
-    params: CommonParams.id,
+    params: CommonParams.projectId,
     body: CreateAssetRequestSchema 
   }),
   assetController.createAsset.bind(assetController)

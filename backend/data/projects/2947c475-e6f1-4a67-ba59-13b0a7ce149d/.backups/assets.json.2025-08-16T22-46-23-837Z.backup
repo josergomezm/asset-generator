@@ -1,0 +1,19 @@
+[
+  {
+    "id": "d392f764-a308-43b4-91ee-c07cb307d4bb",
+    "projectId": "2947c475-e6f1-4a67-ba59-13b0a7ce149d",
+    "type": "prompt",
+    "name": "Hero Background Video",
+    "description": "I want the screenplay for an 20 seconds video to advertice a software making agency.",
+    "generationPrompt": "I want the screenplay for an 20 seconds video to advertice a software making agency.",
+    "generationParameters": {
+      "creativity": "balanced",
+      "length": "medium",
+      "focus": "visual",
+      "variations": 1
+    },
+    "status": "generating",
+    "createdAt": "2025-08-16T22:46:22.007Z",
+    "metadata": {}
+  }
+]

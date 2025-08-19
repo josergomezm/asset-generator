@@ -1,0 +1,15 @@
+{
+  "id": "1a9902c0-8d4e-437e-a782-b44e1edd30cb",
+  "name": "Test Project for GET",
+  "description": "A test project for GET endpoint testing",
+  "context": "Testing context",
+  "artStyle": {
+    "description": "Test style",
+    "referenceImages": [],
+    "styleKeywords": [
+      "test"
+    ]
+  },
+  "createdAt": "2025-08-16T00:29:16.798Z",
+  "updatedAt": "2025-08-16T00:29:16.798Z"
+}

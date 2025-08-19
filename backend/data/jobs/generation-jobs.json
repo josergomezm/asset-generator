@@ -1,9 +1,10 @@
 [
   {
-    "id": "708534e8-2357-45b3-addc-329c2813153a",
-    "assetId": "42ede290-3876-4d7f-a94c-359346a1dd76",
-    "status": "queued",
-    "progress": 0,
-    "createdAt": "2025-08-14T01:41:31.404Z"
+    "id": "7695937a-0a0d-4ba7-b966-89ed505cde36",
+    "assetId": "d392f764-a308-43b4-91ee-c07cb307d4bb",
+    "status": "completed",
+    "progress": 100,
+    "createdAt": "2025-08-16T22:46:22.063Z",
+    "completedAt": "2025-08-16T22:46:23.803Z"
   }
 ]

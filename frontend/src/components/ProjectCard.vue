@@ -1,8 +1,8 @@
 <template>
-  <div class="bg-white overflow-hidden shadow rounded-lg hover:shadow-md transition-shadow duration-200">
-    <div class="p-6">
-      <div class="flex items-center justify-between">
-        <div class="flex-1 min-w-0">
+  <div class="bg-white overflow-hidden shadow rounded-lg hover:shadow-md transition-shadow duration-200 touch-manipulation">
+    <div class="p-4 sm:p-6">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+        <div class="flex-1 min-w-0 mb-3 sm:mb-0">
           <h3 class="text-lg font-medium text-gray-900 truncate">
             {{ project.name }}
           </h3>
@@ -10,11 +10,11 @@
             {{ project.description }}
           </p>
         </div>
-        <div class="ml-4 flex-shrink-0">
+        <div class="flex-shrink-0">
           <div class="flex space-x-2">
             <button
               @click="$emit('edit', project)"
-              class="inline-flex items-center p-2 border border-transparent rounded-full shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              class="inline-flex items-center p-2 sm:p-2 border border-transparent rounded-full shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 touch-manipulation"
               title="Edit project"
             >
               <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -23,7 +23,7 @@
             </button>
             <button
               @click="$emit('delete', project)"
-              class="inline-flex items-center p-2 border border-transparent rounded-full shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+              class="inline-flex items-center p-2 sm:p-2 border border-transparent rounded-full shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 touch-manipulation"
               title="Delete project"
             >
               <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -35,11 +35,11 @@
       </div>
 
       <div class="mt-4">
-        <div class="flex items-center justify-between text-sm text-gray-500">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between text-sm text-gray-500 space-y-2 sm:space-y-0">
           <span>{{ formatDate(project.createdAt) }}</span>
           <router-link
             :to="`/projects/${project.id}`"
-            class="font-medium text-blue-600 hover:text-blue-500"
+            class="font-medium text-blue-600 hover:text-blue-500 touch-manipulation"
           >
             View details →
           </router-link>

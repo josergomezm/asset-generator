@@ -1,6 +1,6 @@
 <template>
-  <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50" @click="handleBackdropClick">
-    <div class="relative top-20 mx-auto p-5 border w-full max-w-2xl shadow-lg rounded-md bg-white">
+  <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50 p-4" @click="handleBackdropClick">
+    <div class="relative top-4 sm:top-20 mx-auto p-4 sm:p-5 border w-full max-w-2xl shadow-lg rounded-md bg-white max-h-[90vh] overflow-y-auto">
       <div class="mt-3">
         <div class="flex items-center justify-between mb-4">
           <h3 class="text-lg font-medium text-gray-900">
@@ -8,7 +8,7 @@
           </h3>
           <button
             @click="$emit('close')"
-            class="text-gray-400 hover:text-gray-600"
+            class="text-gray-400 hover:text-gray-600 p-1 touch-manipulation"
           >
             <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -16,7 +16,7 @@
           </button>
         </div>
 
-        <form @submit.prevent="handleSubmit" class="space-y-6">
+        <form @submit.prevent="handleSubmit" class="space-y-4 sm:space-y-6">
           <!-- Project Name -->
           <div>
             <label for="name" class="block text-sm font-medium text-gray-700">
@@ -27,7 +27,7 @@
               v-model="form.name"
               type="text"
               required
-              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-base sm:text-sm"
               :class="{ 'border-red-300': errors.name }"
               placeholder="Enter project name"
             />
@@ -43,7 +43,7 @@
               id="description"
               v-model="form.description"
               rows="3"
-              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-base sm:text-sm"
               :class="{ 'border-red-300': errors.description }"
               placeholder="Describe your project"
             />
@@ -59,7 +59,7 @@
               id="context"
               v-model="form.context"
               rows="4"
-              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-base sm:text-sm"
               :class="{ 'border-red-300': errors.context }"
               placeholder="Provide additional context about your project, target audience, goals, etc."
             />
@@ -79,7 +79,7 @@
                 id="artStyleDescription"
                 v-model="form.artStyle.description"
                 rows="4"
-                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-base sm:text-sm"
                 :class="{ 'border-red-300': errors['artStyle.description'] }"
                 placeholder="Describe the visual style you want for this project (e.g., 'minimalist flat design with bright colors', 'realistic 3D rendering', etc.)"
               />
@@ -95,7 +95,7 @@
                 id="styleKeywords"
                 v-model="keywordsInput"
                 type="text"
-                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-base sm:text-sm"
                 placeholder="Enter keywords separated by commas (e.g., modern, colorful, geometric)"
                 @input="updateKeywords"
               />
@@ -106,18 +106,18 @@
           </div>
 
           <!-- Form Actions -->
-          <div class="flex justify-end space-x-3 pt-6 border-t border-gray-200">
+          <div class="flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 sm:space-x-3 pt-4 sm:pt-6 border-t border-gray-200">
             <button
               type="button"
               @click="$emit('close')"
-              class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              class="w-full sm:w-auto px-4 py-3 sm:py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 touch-manipulation"
             >
               Cancel
             </button>
             <button
               type="submit"
               :disabled="loading"
-              class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
+              class="w-full sm:w-auto px-4 py-3 sm:py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 touch-manipulation"
             >
               {{ loading ? 'Saving...' : (isEditing ? 'Update Project' : 'Create Project') }}
             </button>
