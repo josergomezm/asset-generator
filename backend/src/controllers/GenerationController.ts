@@ -4,6 +4,20 @@ import { z } from 'zod';
 
 export class GenerationController {
   /**
+   * Extract AI configuration from request headers
+   */
+  private extractAIConfig(req: Request) {
+    const provider = req.headers['x-ai-provider'] as string;
+    const model = req.headers['x-ai-model'] as string;
+    const apiKey = req.headers['x-ai-api-key'] as string;
+
+    if (provider && model && apiKey) {
+      return { provider, model, apiKey };
+    }
+    return undefined;
+  }
+
+  /**
    * Generate image asset
    */
   async generateImage(req: Request, res: Response): Promise<void> {
@@ -17,6 +31,8 @@ export class GenerationController {
         styleOverride
       } = req.body;
 
+      const aiConfig = this.extractAIConfig(req);
+
       const result = await assetGenerationService.generateAsset({
         projectId,
         type: 'image',
@@ -24,7 +40,8 @@ export class GenerationController {
         description,
         generationPrompt,
         generationParameters,
-        styleOverride
+        styleOverride,
+        aiConfig
       });
 
       res.status(201).json({
@@ -71,6 +88,8 @@ export class GenerationController {
         styleOverride
       } = req.body;
 
+      const aiConfig = this.extractAIConfig(req);
+
       const result = await assetGenerationService.generateAsset({
         projectId,
         type: 'video',
@@ -78,7 +97,8 @@ export class GenerationController {
         description,
         generationPrompt,
         generationParameters,
-        styleOverride
+        styleOverride,
+        aiConfig
       });
 
       res.status(201).json({
@@ -125,6 +145,8 @@ export class GenerationController {
         styleOverride
       } = req.body;
 
+      const aiConfig = this.extractAIConfig(req);
+
       const result = await assetGenerationService.generateAsset({
         projectId,
         type: 'prompt',
@@ -132,7 +154,8 @@ export class GenerationController {
         description,
         generationPrompt,
         generationParameters,
-        styleOverride
+        styleOverride,
+        aiConfig
       });
 
       res.status(201).json({

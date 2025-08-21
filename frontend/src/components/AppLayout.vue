@@ -23,6 +23,19 @@
             >
               Projects
             </router-link>
+            
+            <!-- AI Configuration Button -->
+            <button
+              @click="showAIConfig = true"
+              class="flex items-center space-x-2 text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+              :class="{ 'text-green-600': aiStore.isConfigured }"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+              </svg>
+              <span>AI Config</span>
+              <div v-if="aiStore.isConfigured" class="w-2 h-2 bg-green-500 rounded-full"></div>
+            </button>
           </div>
 
           <!-- Mobile menu button -->
@@ -57,6 +70,19 @@
           >
             Projects
           </router-link>
+          
+          <!-- Mobile AI Configuration Button -->
+          <button
+            @click="showAIConfig = true; mobileMenuOpen = false"
+            class="flex items-center space-x-2 w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-colors"
+            :class="{ 'text-green-600': aiStore.isConfigured }"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+            </svg>
+            <span>AI Configuration</span>
+            <div v-if="aiStore.isConfigured" class="w-2 h-2 bg-green-500 rounded-full"></div>
+          </button>
         </div>
       </div>
     </nav>
@@ -65,18 +91,34 @@
     <main class="max-w-7xl mx-auto py-4 sm:py-6 px-4 sm:px-6 lg:px-8">
       <router-view />
     </main>
+
+    <!-- AI Configuration Modal -->
+    <AIConfigModal
+      :is-open="showAIConfig"
+      @close="showAIConfig = false"
+      @save="onAIConfigSave"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
+import { useAIConfigStore } from '@/stores/aiConfig'
+import AIConfigModal from './AIConfigModal.vue'
 
 const route = useRoute()
 const mobileMenuOpen = ref(false)
+const showAIConfig = ref(false)
+const aiStore = useAIConfigStore()
 
 // Close mobile menu when route changes
 route && (() => {
   mobileMenuOpen.value = false
 })
+
+const onAIConfigSave = () => {
+  // Configuration is automatically saved by the store
+  console.log('AI configuration saved')
+}
 </script>

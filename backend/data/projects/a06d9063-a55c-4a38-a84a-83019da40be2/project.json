@@ -1,0 +1,16 @@
+{
+  "id": "a06d9063-a55c-4a38-a84a-83019da40be2",
+  "name": "Performance Project 8",
+  "description": "Project 8 for performance testing",
+  "context": "Performance testing context",
+  "artStyle": {
+    "description": "Performance test style",
+    "referenceImages": [],
+    "styleKeywords": [
+      "performance",
+      "test"
+    ]
+  },
+  "createdAt": "2025-08-21T01:08:11.435Z",
+  "updatedAt": "2025-08-21T01:08:11.435Z"
+}

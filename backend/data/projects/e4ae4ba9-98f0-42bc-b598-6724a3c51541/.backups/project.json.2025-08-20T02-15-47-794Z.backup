@@ -1,0 +1,17 @@
+{
+  "id": "e4ae4ba9-98f0-42bc-b598-6724a3c51541",
+  "name": "Integration Test Project",
+  "description": "A project for testing full integration",
+  "context": "Testing context",
+  "artStyle": {
+    "description": "Modern minimalist style",
+    "referenceImages": [],
+    "styleKeywords": [
+      "modern",
+      "minimalist",
+      "clean"
+    ]
+  },
+  "createdAt": "2025-08-20T02:15:47.720Z",
+  "updatedAt": "2025-08-20T02:15:47.720Z"
+}

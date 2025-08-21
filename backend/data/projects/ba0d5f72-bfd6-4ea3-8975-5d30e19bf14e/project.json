@@ -1,0 +1,16 @@
+{
+  "id": "ba0d5f72-bfd6-4ea3-8975-5d30e19bf14e",
+  "name": "Performance Project 2",
+  "description": "Project 2 for performance testing",
+  "context": "Performance testing context",
+  "artStyle": {
+    "description": "Performance test style",
+    "referenceImages": [],
+    "styleKeywords": [
+      "performance",
+      "test"
+    ]
+  },
+  "createdAt": "2025-08-20T02:15:48.305Z",
+  "updatedAt": "2025-08-20T02:15:48.305Z"
+}

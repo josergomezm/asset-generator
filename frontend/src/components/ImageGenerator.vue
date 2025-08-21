@@ -1,4 +1,7 @@
 <template>
+  <!-- AI Configuration Warning -->
+  <AIConfigWarning @open-config="$emit('aiConfig')" />
+  
   <form @submit.prevent="handleSubmit" class="space-y-6">
     <!-- Asset Name -->
     <div>
@@ -264,7 +267,7 @@ import { apiClient } from '../services/api'
 import { useToast } from '../composables/useToast'
 import LoadingSpinner from './LoadingSpinner.vue'
 import ProgressIndicator from './ProgressIndicator.vue'
-import { z } from 'zod'
+import AIConfigWarning from './AIConfigWarning.vue'
 
 interface Props {
   project: Project
@@ -275,6 +278,7 @@ const props = defineProps<Props>()
 const emit = defineEmits<{
   generate: [{ asset: Asset; job: GenerationJob }]
   cancel: []
+  aiConfig: []
 }>()
 
 const loading = ref(false)

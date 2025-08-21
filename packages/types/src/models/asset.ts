@@ -23,7 +23,30 @@ export const AssetSchema = z.object({
     }).optional(),
     duration: z.number().optional(),
     fileSize: z.number().optional(),
-    format: z.string().optional()
+    format: z.string().optional(),
+    // AI generation metadata
+    openAI: z.object({
+      model: z.string(),
+      finishReason: z.string().optional(),
+      usage: z.object({
+        promptTokens: z.number().optional(),
+        completionTokens: z.number().optional(),
+        totalTokens: z.number().optional()
+      }).optional()
+    }).optional(),
+    googleAI: z.object({
+      model: z.string(),
+      finishReason: z.string().optional(),
+      safetyRatings: z.array(z.object({
+        category: z.string(),
+        probability: z.string()
+      })).optional()
+    }).optional(),
+    stabilityAI: z.object({
+      model: z.string(),
+      seed: z.number().optional(),
+      steps: z.number().optional()
+    }).optional()
   })
 });
 

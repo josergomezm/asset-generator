@@ -1,0 +1,16 @@
+{
+  "id": "85f330ec-9503-4dfa-95fb-74ffa6abe838",
+  "name": "Performance Project 5",
+  "description": "Project 5 for performance testing",
+  "context": "Performance testing context",
+  "artStyle": {
+    "description": "Performance test style",
+    "referenceImages": [],
+    "styleKeywords": [
+      "performance",
+      "test"
+    ]
+  },
+  "createdAt": "2025-08-21T01:07:22.148Z",
+  "updatedAt": "2025-08-21T01:07:22.148Z"
+}

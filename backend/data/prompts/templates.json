@@ -1,0 +1,113 @@
+[
+  {
+    "id": "d7b18569-f4d7-46df-b0f7-4ee211c27300",
+    "name": "Landscape Photography",
+    "description": "Professional landscape photography template",
+    "assetType": "image",
+    "category": "landscape",
+    "components": [
+      {
+        "type": "subject",
+        "label": "Scene",
+        "description": "Main landscape elements"
+      },
+      {
+        "type": "lighting",
+        "label": "Lighting",
+        "description": "Time of day and lighting conditions"
+      },
+      {
+        "type": "camera",
+        "label": "Camera Settings",
+        "description": "Camera angle and lens type"
+      },
+      {
+        "type": "quality",
+        "label": "Quality",
+        "description": "Resolution and detail level"
+      }
+    ],
+    "examplePrompt": "Majestic mountain landscape with snow-capped peaks, golden hour lighting, wide-angle shot, 4k resolution, highly detailed",
+    "tags": [
+      "nature",
+      "mountains",
+      "photography"
+    ],
+    "createdAt": "2025-08-20T22:15:39.139Z",
+    "updatedAt": "2025-08-20T22:15:39.140Z"
+  },
+  {
+    "id": "63a66c8e-45be-4ff5-a2b1-f8671b9159bc",
+    "name": "Portrait Art",
+    "description": "Artistic portrait template",
+    "assetType": "image",
+    "category": "portrait",
+    "components": [
+      {
+        "type": "subject",
+        "label": "Subject",
+        "description": "Person or character description"
+      },
+      {
+        "type": "style",
+        "label": "Art Style",
+        "description": "Artistic style or medium"
+      },
+      {
+        "type": "composition",
+        "label": "Composition",
+        "description": "Framing and pose"
+      },
+      {
+        "type": "mood",
+        "label": "Mood",
+        "description": "Emotional tone"
+      }
+    ],
+    "examplePrompt": "Portrait of a wise elderly person, oil painting style, close-up composition, contemplative mood, soft lighting",
+    "tags": [
+      "portrait",
+      "art",
+      "character"
+    ],
+    "createdAt": "2025-08-20T22:15:39.140Z",
+    "updatedAt": "2025-08-20T22:15:39.140Z"
+  },
+  {
+    "id": "0647f876-eb2d-4130-8503-6b82afee2fda",
+    "name": "Video Scene",
+    "description": "Cinematic video scene template",
+    "assetType": "video",
+    "category": "cinematic",
+    "components": [
+      {
+        "type": "subject",
+        "label": "Scene",
+        "description": "Main action or subject"
+      },
+      {
+        "type": "camera",
+        "label": "Camera Movement",
+        "description": "Camera motion and angles"
+      },
+      {
+        "type": "lighting",
+        "label": "Lighting",
+        "description": "Cinematic lighting setup"
+      },
+      {
+        "type": "mood",
+        "label": "Atmosphere",
+        "description": "Overall mood and tone"
+      }
+    ],
+    "examplePrompt": "Cinematic scene of a person walking through a forest, smooth camera tracking, dramatic lighting with sun rays, mysterious atmosphere",
+    "tags": [
+      "cinematic",
+      "nature",
+      "movement"
+    ],
+    "createdAt": "2025-08-20T22:15:39.140Z",
+    "updatedAt": "2025-08-20T22:15:39.140Z"
+  }
+]

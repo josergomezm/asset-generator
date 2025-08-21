@@ -192,6 +192,27 @@ export class FileManager {
   }
 
   /**
+   * Write text content to file
+   */
+  async writeFile(filePath: string, content: string, encoding: BufferEncoding = 'utf-8'): Promise<void> {
+    try {
+      const absolutePath = path.isAbsolute(filePath) ? filePath : path.join(this.dataDir, filePath);
+      
+      // Ensure directory exists
+      await this.ensureDirectoryExists(path.dirname(absolutePath));
+      
+      // Create backup if file exists and backups are enabled
+      if (this.enableBackups && await this.fileExists(absolutePath)) {
+        await this.createBackup(absolutePath);
+      }
+      
+      await fs.writeFile(absolutePath, content, encoding);
+    } catch (error) {
+      throw new Error(`Failed to write file ${filePath}: ${(error as Error).message}`);
+    }
+  }
+
+  /**
    * Delete directory recursively
    */
   async deleteDirectory(dirPath: string): Promise<void> {

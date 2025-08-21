@@ -1,0 +1,66 @@
+[
+  {
+    "id": "921a8945-5189-47e7-a65f-13cbd3ff1117",
+    "projectId": "5dc54b90-9dea-47fe-9b65-b28610183fcc",
+    "type": "prompt",
+    "name": "Test conservative Prompt",
+    "generationPrompt": "A serene landscape",
+    "generationParameters": {
+      "creativity": "conservative",
+      "length": "short",
+      "focus": "visual",
+      "variations": 1
+    },
+    "status": "pending",
+    "createdAt": "2025-08-21T01:08:11.259Z",
+    "metadata": {}
+  },
+  {
+    "id": "6c026333-f5c3-430a-b785-815d8c6eb51c",
+    "projectId": "5dc54b90-9dea-47fe-9b65-b28610183fcc",
+    "type": "prompt",
+    "name": "Test balanced Prompt",
+    "generationPrompt": "A serene landscape",
+    "generationParameters": {
+      "creativity": "balanced",
+      "length": "short",
+      "focus": "visual",
+      "variations": 1
+    },
+    "status": "generating",
+    "createdAt": "2025-08-21T01:08:11.284Z",
+    "metadata": {}
+  },
+  {
+    "id": "f6ee3d67-24eb-468d-9824-1eb28436d4d5",
+    "projectId": "5dc54b90-9dea-47fe-9b65-b28610183fcc",
+    "type": "prompt",
+    "name": "Test creative Prompt",
+    "generationPrompt": "A serene landscape",
+    "generationParameters": {
+      "creativity": "creative",
+      "length": "short",
+      "focus": "visual",
+      "variations": 1
+    },
+    "status": "pending",
+    "createdAt": "2025-08-21T01:08:11.326Z",
+    "metadata": {}
+  },
+  {
+    "id": "4e52cbd1-563d-41b6-a2c8-9352506c68e7",
+    "projectId": "5dc54b90-9dea-47fe-9b65-b28610183fcc",
+    "type": "prompt",
+    "name": "Test experimental Prompt",
+    "generationPrompt": "A serene landscape",
+    "generationParameters": {
+      "creativity": "experimental",
+      "length": "short",
+      "focus": "visual",
+      "variations": 1
+    },
+    "status": "pending",
+    "createdAt": "2025-08-21T01:08:11.378Z",
+    "metadata": {}
+  }
+]

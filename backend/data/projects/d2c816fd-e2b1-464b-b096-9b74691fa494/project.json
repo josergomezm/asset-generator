@@ -1,0 +1,17 @@
+{
+  "id": "d2c816fd-e2b1-464b-b096-9b74691fa494",
+  "name": "Test Video Project",
+  "description": "A test project for video generation",
+  "context": "Testing video generation functionality",
+  "artStyle": {
+    "description": "Cinematic style with dramatic lighting",
+    "referenceImages": [],
+    "styleKeywords": [
+      "cinematic",
+      "dramatic",
+      "moody"
+    ]
+  },
+  "createdAt": "2025-08-21T01:08:10.796Z",
+  "updatedAt": "2025-08-21T01:08:10.796Z"
+}

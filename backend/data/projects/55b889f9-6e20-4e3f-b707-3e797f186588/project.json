@@ -1,0 +1,15 @@
+{
+  "id": "55b889f9-6e20-4e3f-b707-3e797f186588",
+  "name": "Test Project for DELETE",
+  "description": "A test project for DELETE endpoint testing",
+  "context": "Testing context",
+  "artStyle": {
+    "description": "Test style",
+    "referenceImages": [],
+    "styleKeywords": [
+      "test"
+    ]
+  },
+  "createdAt": "2025-08-20T02:15:48.260Z",
+  "updatedAt": "2025-08-20T02:15:48.260Z"
+}

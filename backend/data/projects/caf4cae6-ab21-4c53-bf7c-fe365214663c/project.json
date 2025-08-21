@@ -1,0 +1,16 @@
+{
+  "id": "caf4cae6-ab21-4c53-bf7c-fe365214663c",
+  "name": "Performance Project 10",
+  "description": "Project 10 for performance testing",
+  "context": "Performance testing context",
+  "artStyle": {
+    "description": "Performance test style",
+    "referenceImages": [],
+    "styleKeywords": [
+      "performance",
+      "test"
+    ]
+  },
+  "createdAt": "2025-08-21T01:07:22.151Z",
+  "updatedAt": "2025-08-21T01:07:22.151Z"
+}

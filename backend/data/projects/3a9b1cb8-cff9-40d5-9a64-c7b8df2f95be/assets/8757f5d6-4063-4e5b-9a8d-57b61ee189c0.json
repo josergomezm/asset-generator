@@ -1,0 +1,19 @@
+{
+  "id": "8757f5d6-4063-4e5b-9a8d-57b61ee189c0",
+  "projectId": "3a9b1cb8-cff9-40d5-9a64-c7b8df2f95be",
+  "type": "video",
+  "name": "Test Video with Style Override",
+  "generationPrompt": "A futuristic cityscape",
+  "generationParameters": {},
+  "styleOverride": {
+    "description": "Cyberpunk aesthetic with neon lights",
+    "keywords": [
+      "cyberpunk",
+      "neon",
+      "futuristic"
+    ]
+  },
+  "status": "generating",
+  "createdAt": "2025-08-21T01:08:11.007Z",
+  "metadata": {}
+}

@@ -1,15 +1,15 @@
 [
   {
-    "id": "2947c475-e6f1-4a67-ba59-13b0a7ce149d",
-    "name": "MTM Website",
-    "description": "Website for a consultant agency focused on wbsite making using AI.",
-    "context": "The target audience is businesses, small to medium size. ",
+    "id": "abad1696-0436-4a9f-b43c-e8c58c764014",
+    "name": "Test Project",
+    "description": "Website for a software making agency. AI focused.",
+    "context": "B2B",
     "artStyle": {
-      "description": "The brand is very stylish and elegant, but minimalist. Blacks and whites.",
+      "description": "Elegant, minimalist, modern.",
       "referenceImages": [],
       "styleKeywords": []
     },
-    "createdAt": "2025-08-16T22:32:40.651Z",
-    "updatedAt": "2025-08-16T22:36:34.552Z"
+    "createdAt": "2025-08-21T01:19:53.910Z",
+    "updatedAt": "2025-08-21T01:19:53.910Z"
   }
 ]

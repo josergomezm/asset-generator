@@ -1,0 +1,15 @@
+{
+  "id": "60935790-3f39-4b1c-92a0-e9fea1ccb71d",
+  "name": "Concurrent Project 2",
+  "description": "Project 2 for concurrent testing",
+  "context": "Concurrent testing context",
+  "artStyle": {
+    "description": "Test style",
+    "referenceImages": [],
+    "styleKeywords": [
+      "test"
+    ]
+  },
+  "createdAt": "2025-08-20T02:15:47.896Z",
+  "updatedAt": "2025-08-20T02:15:47.896Z"
+}

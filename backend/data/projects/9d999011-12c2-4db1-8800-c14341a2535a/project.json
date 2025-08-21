@@ -1,0 +1,15 @@
+{
+  "id": "9d999011-12c2-4db1-8800-c14341a2535a",
+  "name": "Error Test Project",
+  "description": "Project for error testing",
+  "context": "Error testing context",
+  "artStyle": {
+    "description": "Test style",
+    "referenceImages": [],
+    "styleKeywords": [
+      "test"
+    ]
+  },
+  "createdAt": "2025-08-21T01:08:11.335Z",
+  "updatedAt": "2025-08-21T01:08:11.335Z"
+}

@@ -1,0 +1,13 @@
+{
+  "id": "abad1696-0436-4a9f-b43c-e8c58c764014",
+  "name": "Test Project",
+  "description": "Website for a software making agency. AI focused.",
+  "context": "B2B",
+  "artStyle": {
+    "description": "Elegant, minimalist, modern.",
+    "referenceImages": [],
+    "styleKeywords": []
+  },
+  "createdAt": "2025-08-21T01:19:53.910Z",
+  "updatedAt": "2025-08-21T01:19:53.910Z"
+}

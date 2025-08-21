@@ -1,0 +1,15 @@
+{
+  "id": "c02dd096-1258-4671-b30d-a0ad514491b5",
+  "name": "Concurrent Project 4",
+  "description": "Project 4 for concurrent testing",
+  "context": "Concurrent testing context",
+  "artStyle": {
+    "description": "Test style",
+    "referenceImages": [],
+    "styleKeywords": [
+      "test"
+    ]
+  },
+  "createdAt": "2025-08-20T02:16:03.181Z",
+  "updatedAt": "2025-08-20T02:16:03.181Z"
+}

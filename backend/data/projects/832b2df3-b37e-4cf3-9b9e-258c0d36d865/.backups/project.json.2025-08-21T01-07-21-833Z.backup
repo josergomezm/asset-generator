@@ -1,0 +1,15 @@
+{
+  "id": "832b2df3-b37e-4cf3-9b9e-258c0d36d865",
+  "name": "Test Project for PUT",
+  "description": "A test project for PUT endpoint testing",
+  "context": "Testing context",
+  "artStyle": {
+    "description": "Test style",
+    "referenceImages": [],
+    "styleKeywords": [
+      "test"
+    ]
+  },
+  "createdAt": "2025-08-21T01:07:21.801Z",
+  "updatedAt": "2025-08-21T01:07:21.801Z"
+}

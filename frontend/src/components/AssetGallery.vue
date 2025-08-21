@@ -105,6 +105,14 @@
       :project="project"
       @close="showAssetCreator = false"
       @generated="handleAssetGenerated"
+      @ai-config="showAIConfig = true"
+    />
+
+    <!-- AI Configuration Modal -->
+    <AIConfigModal
+      :is-open="showAIConfig"
+      @close="showAIConfig = false"
+      @save="onAIConfigSave"
     />
   </div>
 </template>
@@ -116,6 +124,7 @@ import { apiClient } from '../services/api'
 import { useToast } from '../composables/useToast'
 import AssetPreview from './AssetPreview.vue'
 import AssetCreator from './AssetCreator.vue'
+import AIConfigModal from './AIConfigModal.vue'
 import LoadingSpinner from './LoadingSpinner.vue'
 
 interface Props {
@@ -131,6 +140,7 @@ const error = ref<string | null>(null)
 const searchQuery = ref('')
 const selectedType = ref<string>('')
 const showAssetCreator = ref(false)
+const showAIConfig = ref(false)
 
 const { showSuccess, showError } = useToast()
 
@@ -225,6 +235,11 @@ function handleAssetGenerated(result: { asset: Asset; job: GenerationJob }) {
   showAssetCreator.value = false
   // Refresh assets to get the latest data
   fetchAssets()
+}
+
+function onAIConfigSave() {
+  // Configuration is automatically saved by the store
+  console.log('AI configuration saved')
 }
 
 // Expose refresh method for parent components

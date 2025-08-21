@@ -1,0 +1,17 @@
+{
+  "id": "6e5244d1-3e81-4a15-a953-e6be5b299f84",
+  "name": "Test Prompt Project",
+  "description": "A test project for prompt generation",
+  "context": "Testing prompt generation functionality",
+  "artStyle": {
+    "description": "Creative and detailed style with rich descriptions",
+    "referenceImages": [],
+    "styleKeywords": [
+      "detailed",
+      "creative",
+      "vivid"
+    ]
+  },
+  "createdAt": "2025-08-21T01:07:21.944Z",
+  "updatedAt": "2025-08-21T01:07:21.944Z"
+}

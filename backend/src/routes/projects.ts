@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { projectController } from '../controllers/ProjectController';
 import { assetController } from '../controllers/AssetController';
 import { validate, CommonParams, upload } from '../middleware';
+import { z } from 'zod';
 import { 
   CreateProjectRequestSchema, 
   UpdateProjectRequestSchema,
