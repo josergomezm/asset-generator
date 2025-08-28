@@ -1,0 +1,103 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+// Variables
+$primary-color: #3B82F6;
+$secondary-color: #10B981;
+$danger-color: #EF4444;
+$warning-color: #F59E0B;
+$success-color: #10B981;
+
+// Mixins
+@mixin button-base {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border: 1px solid transparent;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 0.375rem;
+  transition: all 0.15s ease-in-out;
+  cursor: pointer;
+  
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+@mixin button-variant($bg-color, $text-color: white, $hover-bg: darken($bg-color, 10%)) {
+  @include button-base;
+  background-color: $bg-color;
+  color: $text-color;
+  
+  &:hover:not(:disabled) {
+    background-color: $hover-bg;
+  }
+}
+
+// Custom button classes
+.btn-primary {
+  @include button-variant($primary-color);
+}
+
+.btn-secondary {
+  @include button-variant($secondary-color);
+}
+
+.btn-danger {
+  @include button-variant($danger-color);
+}
+
+// Card styles
+.card {
+  background: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  
+  &:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+  
+  .card-header {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #e5e7eb;
+    background-color: #f9fafb;
+  }
+  
+  .card-body {
+    padding: 1.5rem;
+  }
+}
+
+// Status indicators
+.status {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  
+  &.status-draft {
+    background-color: #f3f4f6;
+    color: #374151;
+  }
+  
+  &.status-generating {
+    background-color: #fef3c7;
+    color: #92400e;
+  }
+  
+  &.status-completed {
+    background-color: #d1fae5;
+    color: #065f46;
+  }
+  
+  &.status-error {
+    background-color: #fee2e2;
+    color: #991b1b;
+  }
+}

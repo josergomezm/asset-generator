@@ -7,19 +7,48 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependencies
 node_modules
-.DS_Store
+.pnp
+.pnp.js
+
+# Production builds
 dist
 dist-ssr
-coverage
+build
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 *.local
 
+# Testing
+coverage
+.nyc_output
 /cypress/videos/
 /cypress/screenshots/
+
+# Cache directories
+.cache
+.parcel-cache
+.vite
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
 
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
+!.vscode/settings.json
 .idea
 *.suo
 *.ntvs*
@@ -27,4 +56,21 @@ coverage
 *.sln
 *.sw?
 
+# TypeScript
 *.tsbuildinfo
+
+# Temporary files
+tmp/
+temp/
+
+# Storybook
+.out
+.storybook-out
+storybook-static
+
+# AI API Keys (project specific)
+.api-keys
+config/keys.js
+
+# Local storage backups
+localStorage-backup.json

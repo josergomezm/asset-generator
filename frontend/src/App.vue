@@ -1,20 +1,16 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import AppLayout from './components/AppLayout.vue'
-import ToastContainer from './components/ToastContainer.vue'
-import { useToast } from './composables/useToast'
+import { onMounted } from 'vue'
+import { useSettingsStore } from '@/stores/settings'
 
-const toastContainer = ref()
-const { setToastContainer } = useToast()
+const settingsStore = useSettingsStore()
 
 onMounted(() => {
-  if (toastContainer.value) {
-    setToastContainer(toastContainer.value)
-  }
+  settingsStore.loadSettings()
 })
 </script>
 
 <template>
-  <AppLayout />
-  <ToastContainer ref="toastContainer" />
+  <RouterView />
 </template>
+
+<style scoped></style>

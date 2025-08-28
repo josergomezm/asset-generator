@@ -1,158 +1,206 @@
-import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
-import type { Project } from '@asset-tool/types'
-import { apiClient } from '../services/api'
-import { useErrorHandler } from '../composables/useErrorHandler'
-import { useLoading } from '../composables/useLoading'
+import { ref, computed } from 'vue'
 
-export const useProjectStore = defineStore('projects', () => {
+// API configuration
+const API_BASE = 'http://localhost:3001/api'
+
+// Helper functions for file-based storage via backend API
+async function loadFromAPI<T>(endpoint: string): Promise<T[]> {
+  try {
+    const response = await fetch(`${API_BASE}/${endpoint}`)
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`)
+    }
+    const data = await response.json()
+    return Array.isArray(data) ? data : []
+  } catch (error) {
+    console.warn(`Error loading ${endpoint}:`, error)
+    // Fallback to localStorage if API is not available
+    const saved = localStorage.getItem(endpoint)
+    if (saved) {
+      const data = JSON.parse(saved)
+      return Array.isArray(data) ? data : []
+    }
+    return []
+  }
+}
+
+async function saveToAPI<T>(endpoint: string, data: T[]): Promise<void> {
+  try {
+    const response = await fetch(`${API_BASE}/${endpoint}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data)
+    })
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`)
+    }
+
+    // Also save to localStorage as backup
+    localStorage.setItem(endpoint, JSON.stringify(data))
+  } catch (error) {
+    console.error(`Error saving ${endpoint}:`, error)
+    // Fallback to localStorage if API is not available
+    localStorage.setItem(endpoint, JSON.stringify(data))
+  }
+}
+
+// Helper to convert date strings back to Date objects
+function reviveDates<T extends { createdAt: string | Date }>(items: T[]): T[] {
+  return items.map(item => ({
+    ...item,
+    createdAt: typeof item.createdAt === 'string' ? new Date(item.createdAt) : item.createdAt
+  }))
+}
+
+export interface Project {
+  id: string
+  name: string
+  description: string
+  category: string
+  createdAt: Date
+}
+
+export interface TokenUsage {
+  inputTokens: number
+  outputTokens: number
+  totalTokens: number
+  estimatedCost: number
+  timestamp: Date
+}
+
+export interface Asset {
+  id: string
+  projectId: string
+  name: string
+  type: 'image' | 'text' | 'video' | 'audio'
+  context: string
+  prompt?: string
+  generatedContent?: string
+  status: 'draft' | 'generating' | 'completed' | 'error'
+  createdAt: Date
+  tokenUsage?: TokenUsage[]
+  totalTokens?: number
+  totalCost?: number
+}
+
+export const useProjectsStore = defineStore('projects', () => {
   const projects = ref<Project[]>([])
+  const assets = ref<Asset[]>([])
   const currentProject = ref<Project | null>(null)
-  const error = ref<string | null>(null)
-  const { handleAsyncOperation } = useErrorHandler()
-  const { withLoading, isLoading } = useLoading()
+  const isLoaded = ref(false)
 
-  // Computed properties
-  const loading = computed(() => isLoading('projects'))
-  const projectsById = computed(() => {
-    const map = new Map<string, Project>()
-    projects.value.forEach(project => map.set(project.id, project))
-    return map
+  const getProjectById = computed(() => {
+    return (id: string) => projects.value.find(p => p.id === id)
   })
 
-  // Actions
-  async function fetchProjects() {
-    error.value = null
-    return withLoading('projects', async () => {
-      try {
-        const result = await apiClient.getProjects()
-        projects.value = result
-        return result
-      } catch (err) {
-        error.value = err instanceof Error ? err.message : 'Failed to load projects'
-        throw err
-      }
-    }, 'Loading projects...')
+  const getAssetsByProject = computed(() => {
+    return (projectId: string) => assets.value.filter(a => a.projectId === projectId)
+  })
+
+  async function loadData() {
+    if (isLoaded.value) return
+
+    try {
+      const projectData = await loadFromAPI<Project>('projects')
+      projects.value = reviveDates(projectData)
+
+      const assetData = await loadFromAPI<Asset>('assets')
+      assets.value = reviveDates(assetData)
+
+      isLoaded.value = true
+    } catch (error) {
+      console.error('Error loading data:', error)
+      isLoaded.value = true
+    }
   }
 
-  async function fetchProject(id: string) {
-    return withLoading(`project-${id}`, async () => {
-      const project = await apiClient.getProject(id)
-      currentProject.value = project
-      
-      // Update in projects list if it exists
-      const index = projects.value.findIndex(p => p.id === id)
-      if (index !== -1) {
-        projects.value[index] = project
-      } else {
-        projects.value.push(project)
-      }
-      
-      return project
-    }, 'Loading project...')
+  async function saveProjects() {
+    await saveToAPI('projects', projects.value)
   }
 
-  async function createProject(projectData: any) {
-    return withLoading('create-project', async () => {
-      const newProject = await apiClient.createProject(projectData)
-      projects.value.push(newProject)
-      return newProject
-    }, 'Creating project...')
+  async function saveAssets() {
+    await saveToAPI('assets', assets.value)
   }
 
-  async function updateProject(id: string, projectData: any) {
-    return withLoading(`update-project-${id}`, async () => {
-      const updatedProject = await apiClient.updateProject(id, projectData)
-      
-      // Update in projects list
-      const index = projects.value.findIndex(p => p.id === id)
-      if (index !== -1) {
-        projects.value[index] = updatedProject
-      }
-      
-      // Update current project if it's the same
-      if (currentProject.value?.id === id) {
-        currentProject.value = updatedProject
-      }
-      
-      return updatedProject
-    }, 'Updating project...')
+  async function addProject(project: Omit<Project, 'id' | 'createdAt'>) {
+    const newProject: Project = {
+      ...project,
+      id: crypto.randomUUID(),
+      createdAt: new Date()
+    }
+    projects.value.push(newProject)
+    await saveProjects()
+    return newProject
+  }
+
+  async function addAsset(asset: Omit<Asset, 'id' | 'createdAt'>) {
+    const newAsset: Asset = {
+      ...asset,
+      id: crypto.randomUUID(),
+      createdAt: new Date()
+    }
+    assets.value.push(newAsset)
+    await saveAssets()
+    return newAsset
+  }
+
+  async function updateAsset(id: string, updates: Partial<Asset>) {
+    const index = assets.value.findIndex(a => a.id === id)
+    if (index !== -1) {
+      assets.value[index] = { ...assets.value[index], ...updates }
+      await saveAssets()
+    }
+  }
+
+  async function updateProject(id: string, updates: Partial<Omit<Project, 'id' | 'createdAt'>>) {
+    const index = projects.value.findIndex(p => p.id === id)
+    if (index !== -1) {
+      projects.value[index] = { ...projects.value[index], ...updates }
+      await saveProjects()
+    }
   }
 
   async function deleteProject(id: string) {
-    return withLoading(`delete-project-${id}`, async () => {
-      await apiClient.deleteProject(id)
-      
-      // Remove from projects list
-      projects.value = projects.value.filter(p => p.id !== id)
-      
-      // Clear current project if it's the deleted one
-      if (currentProject.value?.id === id) {
-        currentProject.value = null
-      }
-    }, 'Deleting project...')
+    const index = projects.value.findIndex(p => p.id === id)
+    if (index !== -1) {
+      projects.value.splice(index, 1)
+      // Also delete associated assets
+      assets.value = assets.value.filter(a => a.projectId !== id)
+      await saveProjects()
+      await saveAssets()
+    }
   }
 
-  async function uploadStyleImages(projectId: string, files: File[]) {
-    return withLoading(`upload-style-${projectId}`, async (updateProgress) => {
-      // Simulate progress for file upload
-      updateProgress?.(25, 'Preparing files...')
-      
-      const updatedProject = await apiClient.uploadStyleImages(projectId, files)
-      
-      updateProgress?.(75, 'Processing images...')
-      
-      // Update in projects list
-      const index = projects.value.findIndex(p => p.id === projectId)
-      if (index !== -1) {
-        projects.value[index] = updatedProject
-      }
-      
-      // Update current project if it's the same
-      if (currentProject.value?.id === projectId) {
-        currentProject.value = updatedProject
-      }
-      
-      updateProgress?.(100, 'Upload complete')
-      return updatedProject
-    }, 'Uploading style images...')
-  }
-
-  // Utility functions
-  function getProjectById(id: string): Project | undefined {
-    return projectsById.value.get(id)
+  async function deleteAsset(id: string) {
+    const index = assets.value.findIndex(a => a.id === id)
+    if (index !== -1) {
+      assets.value.splice(index, 1)
+      await saveAssets()
+    }
   }
 
   function setCurrentProject(project: Project | null) {
     currentProject.value = project
   }
 
-  function clearProjects() {
-    projects.value = []
-    currentProject.value = null
-  }
-
-  return { 
-    // State
-    projects, 
+  return {
+    projects,
+    assets,
     currentProject,
-    projectsById,
-    error,
-    
-    // Computed
-    loading,
-    
-    // Actions
-    fetchProjects, 
-    fetchProject,
-    createProject, 
+    isLoaded,
+    getProjectById,
+    getAssetsByProject,
+    loadData,
+    addProject,
+    addAsset,
+    updateAsset,
     updateProject,
     deleteProject,
-    uploadStyleImages,
-    
-    // Utilities
-    getProjectById,
-    setCurrentProject,
-    clearProjects
+    deleteAsset,
+    setCurrentProject
   }
 })

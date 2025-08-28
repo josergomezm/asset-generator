@@ -1,73 +1,76 @@
-# Asset Generation Tool
+# Assets Creator
 
-A web application for generating consistent visual assets with defined art styles.
+A Vue.js application for creating and managing project assets with AI-powered prompt generation.
 
-## Project Structure
+## Features
 
+- Create and manage projects
+- Generate AI-powered prompts for different asset types (images, text, video, audio)
+- File-based storage using JSON files
+- Google Gemini AI integration
+
+## Setup
+
+### Backend (File Storage Server)
+
+1. Navigate to the backend directory:
+```bash
+cd backend
 ```
-asset-generation-tool/
-├── frontend/          # Vue.js frontend application
-├── backend/           # Node.js/Express backend API
-├── package.json       # Root package.json for workspace management
-└── README.md         # This file
+
+2. Install dependencies:
+```bash
+npm install
 ```
 
-## Prerequisites
+3. Start the backend server:
+```bash
+npm start
+```
 
-- Node.js (v18 or higher)
-- MongoDB (local installation or MongoDB Atlas)
-- npm or yarn
+The backend server will run on `http://localhost:3001` and create JSON files in `backend/storage/`.
 
-## Quick Start
+### Frontend
 
-1. **Install all dependencies:**
-   ```bash
-   npm run install:all
-   ```
+1. Navigate to the frontend directory:
+```bash
+cd frontend
+```
 
-2. **Set up environment variables:**
-   - Copy `backend/.env.example` to `backend/.env`
-   - Copy `frontend/.env.example` to `frontend/.env`
-   - Update MongoDB connection string in `backend/.env` if needed
+2. Install dependencies:
+```bash
+npm install
+```
 
-3. **Start development servers:**
-   ```bash
-   npm run dev
-   ```
+3. Start the development server:
+```bash
+npm run dev
+```
 
-   This will start both frontend (http://localhost:5173) and backend (http://localhost:3000) servers.
+The frontend will run on `http://localhost:5173` (or another port if 5173 is busy).
+
+## Storage
+
+Data is stored in JSON files located at:
+- `backend/storage/projects.json` - Project data
+- `backend/storage/assets.json` - Asset data
+
+The system automatically:
+- Loads data from these files on startup
+- Saves changes immediately to the files
+- Uses localStorage as a fallback if the backend is unavailable
+
+## AI Configuration
+
+1. Go to Settings in the app
+2. Add your Google Gemini API key
+3. Select your preferred model
+4. Test the connection to verify it works
+
+Get your API key from [Google AI Studio](https://makersuite.google.com/app/apikey).
 
 ## Development
 
-### Frontend (Vue.js)
-- **Location:** `./frontend`
-- **Tech Stack:** Vue 3, TypeScript, Vite, Tailwind CSS, Pinia, Vue Router
-- **Dev Server:** `npm run dev:frontend`
-- **Build:** `npm run build:frontend`
-
-### Backend (Node.js/Express)
-- **Location:** `./backend`
-- **Tech Stack:** Express, TypeScript, MongoDB, Mongoose
-- **Dev Server:** `npm run dev:backend`
-- **Build:** `npm run build:backend`
-
-## Environment Variables
-
-### Backend (.env)
-```
-PORT=3000
-MONGODB_URI=mongodb://localhost:27017/asset-generation-tool
-NODE_ENV=development
-```
-
-### Frontend (.env)
-```
-VITE_API_BASE_URL=http://localhost:3000
-```
-
-## Available Scripts
-
-- `npm run dev` - Start both frontend and backend in development mode
-- `npm run build` - Build both frontend and backend for production
-- `npm run start` - Start production backend server
-- `npm run install:all` - Install dependencies for all projects
+- Backend: Simple Express.js server with file-based storage
+- Frontend: Vue 3 with TypeScript, Tailwind CSS, and Pinia for state management
+- Storage: JSON files with automatic backup to localStorage
