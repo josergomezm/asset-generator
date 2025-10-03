@@ -435,13 +435,15 @@ function getStatusClass(status: string) {
   return classes[status as keyof typeof classes] || 'bg-gray-100 text-gray-800'
 }
 
-function formatDate(date: Date | undefined) {
-  if (!date) return 'Unknown'
+function formatDate(date: Date | string | undefined) {
+  if (!date) return 'Unknown';
+  const d = typeof date === 'string' ? new Date(date) : date;
+  if (isNaN(d.getTime())) return 'Unknown';
   return new Intl.DateTimeFormat('en-US', {
     year: 'numeric',
     month: 'short',
     day: 'numeric'
-  }).format(date)
+  }).format(d);
 }
 
 function toggleEditMode() {
